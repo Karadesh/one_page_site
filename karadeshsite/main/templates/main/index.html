@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<h1>{{title}}</h1>
+Главная
+{% for i in my_posts %}
+{{i.title}}
+<a href="{% url 'about' %}">Karadesh</a>
+{{i.time_created}}
+{{i.posttext}}
+{% if i.postimage %}
+<img src="{{i.postimage.url}}" alt="">
+{% endif %}
+{% endfor %}
+{% endblock %}

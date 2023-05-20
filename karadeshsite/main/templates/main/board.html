@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<h1>{{title}}</h1>
+Главная
+{% if posts %}
+{% for post in posts %}
+{{post.nickname}}
+{{post.time_created}}
+{{post.message}}
+{{post.photo}}
+{% endfor %}
+{% endif %}
+{{page_num}}
+{% endblock %}
