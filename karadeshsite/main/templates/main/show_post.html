@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{{post.title}}
+<a href="{% url 'about' %}">Karadesh</a>
+{{post.time_created}}
+{% if post.postimage %}
+<img src="{{post.postimage.url}}" alt="">
+{% endif %}
+{{post.posttext}}
+{% endblock content %}

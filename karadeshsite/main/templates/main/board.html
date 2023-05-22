@@ -1,7 +1,9 @@
 {% extends 'main/base.html' %}
+{% load main_tags %}
 {% block content %}
 <h1>{{title}}</h1>
 Главная
+{% get_board as posts %}
 {% if posts %}
 {% for post in posts %}
 {{post.nickname}}
