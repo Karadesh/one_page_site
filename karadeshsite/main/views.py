@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound, Http404
 from .models import *
+from .forms import *
 
 #return redirect('adress') for redirect 302 
 # and ('adress', permanent=True) for redirect 301 
@@ -44,9 +45,21 @@ def about(request):
     return render(request, "main/about.html", context=context)
 
 def board(request): #Добавить page_num, чтобы можно было смотреть страницы
+    if request.method == 'POST':
+        form = AddMessageForm(request.POST)
+        if form.is_valid():
+            try:
+                BoardMessages.objects.create(**form.cleaned_data)
+                return redirect('board')
+            except Exception as e:
+                print("error in board:" + str(e))
+                form.add_error(None, "Ошибка добавления сообщения")
+    else:
+        form = AddMessageForm()
     context = {
         'menu': menu,
         'title': 'Board',
+        'form': form
     }
     return render(request, "main/board.html", context=context)
 
