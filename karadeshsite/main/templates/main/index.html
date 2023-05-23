@@ -1,14 +1,17 @@
 {% extends 'main/base.html' %}
+{% load main_tags %}
 {% block content %}
 <h1>{{title}}</h1>
 Главная
-{% for i in my_posts %}
+{% get_posts as posts %}
+{% for i in posts %}
 {{i.title}}
 <a href="{% url 'about' %}">Karadesh</a>
 {{i.time_created}}
 {{i.posttext}}
 {% if i.postimage %}
 <img src="{{i.postimage.url}}" alt="">
+<a href="{% url 'post' i.slug %}">Читать</a>
 {% endif %}
 {% endfor %}
 {% endblock %}

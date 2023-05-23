@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseNotFound, Http404
 from .models import *
+from .forms import *
 
 #return redirect('adress') for redirect 302 
 # and ('adress', permanent=True) for redirect 301 
@@ -14,13 +15,20 @@ menu = [{"title": "Board", "url_name": "board"},
         {"title":"Задонатить", "url_name":"https://www.donationalerts.com/r/karadesh"}]
 
 def index(request):
-    my_posts = MyPosts.objects.all()
     context = {
-        'my_posts': my_posts,
         'menu': menu,
         'title': 'Karadesh site'
     }
     return render(request, "main/index.html", context=context)
+
+def show_post(request, post_slug):
+    post = get_object_or_404(MyPosts, slug=post_slug)
+    context = {
+        'menu': menu,
+        'title': post.title,
+        'post': post
+    }
+    return render(request, "main/show_post.html", context=context)
 
 def feedback(request):
     context = {
@@ -37,11 +45,21 @@ def about(request):
     return render(request, "main/about.html", context=context)
 
 def board(request): #Добавить page_num, чтобы можно было смотреть страницы
-    posts = BoardMessages.objects.all()
+    if request.method == 'POST':
+        form = AddMessageForm(request.POST)
+        if form.is_valid():
+            try:
+                BoardMessages.objects.create(**form.cleaned_data)
+                return redirect('board')
+            except Exception as e:
+                print("error in board:" + str(e))
+                form.add_error(None, "Ошибка добавления сообщения")
+    else:
+        form = AddMessageForm()
     context = {
         'menu': menu,
         'title': 'Board',
-        'posts': posts
+        'form': form
     }
     return render(request, "main/board.html", context=context)
 

@@ -17,6 +17,7 @@ class MyPostsAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_editable = ('isactive',)
     list_filter = ('time_created', 'isactive')
+    prepopulated_fields = {"slug": ("title",)}
 
 admin.site.register(BoardMessages, BoardMessagesAdmin)
 admin.site.register(MyPosts, MyPostsAdmin)

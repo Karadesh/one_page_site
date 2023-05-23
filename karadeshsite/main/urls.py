@@ -6,4 +6,5 @@ urlpatterns = [
     path('feedback/', feedback, name='feedback'),
     path('about/', about, name='about'),
     path('board/', board, name='board'), #добавить <int:page_num> для страниц с пагинацией
+    path('post/<slug:post_slug>/', show_post, name='post'),
 ]

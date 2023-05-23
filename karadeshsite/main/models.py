@@ -18,6 +18,7 @@ class BoardMessages(models.Model):
 
 class MyPosts(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     posttext = models.TextField(blank=True, verbose_name='Текст')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     postimage = models.ImageField(upload_to="images/", verbose_name='Изображение')

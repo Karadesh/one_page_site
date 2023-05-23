@@ -1,14 +1,25 @@
 {% extends 'main/base.html' %}
+{% load main_tags %}
 {% block content %}
 <h1>{{title}}</h1>
 Главная
+{% get_board as posts %}
 {% if posts %}
 {% for post in posts %}
+{% if post.isactive == True %}
 {{post.nickname}}
 {{post.time_created}}
 {{post.message}}
-{{post.photo}}
+{% endif %}
 {% endfor %}
 {% endif %}
-{{page_num}}
+<form action="{% url 'board' %}" method="post">
+    {% csrf_token %}
+    {{form.non_field_errors}}
+    {% for f in form %}
+    <p><label for="{{ f.id_for_label }}">{{f.label}}: </label>{{f}}</p>
+    {{f.errors}}
+    {% endfor %}
+    <button type="submit">Добавить!</button>
+</form>
 {% endblock %}
