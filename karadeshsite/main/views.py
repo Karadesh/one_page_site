@@ -48,12 +48,8 @@ def board(request): #Добавить page_num, чтобы можно было �
     if request.method == 'POST':
         form = AddMessageForm(request.POST)
         if form.is_valid():
-            try:
-                BoardMessages.objects.create(**form.cleaned_data)
-                return redirect('board')
-            except Exception as e:
-                print("error in board:" + str(e))
-                form.add_error(None, "Ошибка добавления сообщения")
+            form.save()
+            return redirect('board')
     else:
         form = AddMessageForm()
     context = {
