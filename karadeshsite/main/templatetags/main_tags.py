@@ -16,3 +16,11 @@ def get_board(filter=None):
         return BoardMessages.objects.all()
     else:
         return BoardMessages.objects.filter(pk=filter)
+    
+@register.inclusion_tag('main/menu.html')
+def show_menu():
+    menu = [{"title": "Board", "url_name": "board"},
+        {"title": "Обо мне", "url_name": "about"}, 
+        {"title":"Мои проекты", "url_name": "about"},
+        {"title":"Задонатить", "url_name":"https://www.donationalerts.com/r/karadesh"}]
+    return {"menu": menu}

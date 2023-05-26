@@ -3,8 +3,7 @@
 {% block content %}
 <h1>{{title}}</h1>
 Главная
-{% get_posts as posts %}
-{% for i in posts %}
+{% for i in object_list %}
 {{i.title}}
 <a href="{% url 'about' %}">Karadesh</a>
 {{i.time_created}}
